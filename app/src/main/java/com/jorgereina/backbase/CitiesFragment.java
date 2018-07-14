@@ -1,6 +1,5 @@
 package com.jorgereina.backbase;
 
-import android.content.res.AssetManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,25 +12,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 import com.jorgereina.backbase.databinding.FragmentCitiesBinding;
-import com.jorgereina.backbase.model.CitiesResponse;
 import com.jorgereina.backbase.model.City;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CitiesFragment extends Fragment {
 
     private static final String TAG = CitiesFragment.class.getSimpleName();
+
     private FragmentCitiesBinding binding;
     private CitiesAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private List<City> cities = new ArrayList<>();
 
     public CitiesFragment() {
     }
@@ -39,13 +36,12 @@ public class CitiesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cities, container, false);
-
+        binding = DataBindingUtil
+                .inflate(inflater, R.layout.fragment_cities, container, false);
         layoutManager = new LinearLayoutManager(getContext());
-        adapter = new CitiesAdapter();
+        adapter = new CitiesAdapter(cities);
         binding.citiesRv.setLayoutManager(layoutManager);
         binding.citiesRv.setAdapter(adapter);
-
         return binding.getRoot();
     }
 
@@ -57,8 +53,7 @@ public class CitiesFragment extends Fragment {
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
         Gson gson = new Gson();
-        City[] response = gson.fromJson(inputStreamReader, City[].class);
-
-        Log.d(TAG, "onCreateView: " + response[0].getName());
+        Collections.addAll(cities, gson.fromJson(inputStreamReader, City[].class));
+        adapter.notifyDataSetChanged();
     }
 }
