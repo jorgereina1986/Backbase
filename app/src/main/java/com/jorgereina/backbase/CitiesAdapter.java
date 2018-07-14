@@ -3,17 +3,12 @@ package com.jorgereina.backbase;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.jorgereina.backbase.databinding.CityRowBinding;
 import com.jorgereina.backbase.model.City;
 
 import java.util.List;
-
-/**
- * Created by jorgereina on 7/13/18.
- */
 
 public class CitiesAdapter extends RecyclerView.Adapter <CitiesAdapter.CitiesViewHolder> {
 
@@ -35,7 +30,7 @@ public class CitiesAdapter extends RecyclerView.Adapter <CitiesAdapter.CitiesVie
     public void onBindViewHolder(@NonNull CitiesViewHolder holder, int position) {
 
         City city = cities.get(position);
-        holder.binding.nameTv.setText(city.getName());
+        holder.binding.nameTv.setText(city.getName() + ", " + city.getCountry());
     }
 
     @Override
@@ -51,5 +46,10 @@ public class CitiesAdapter extends RecyclerView.Adapter <CitiesAdapter.CitiesVie
             super(binding.getRoot());
             this.binding = binding;
         }
+    }
+
+    public void filterList(List<City> filteredCities) {
+        this.cities = filteredCities;
+        notifyDataSetChanged();
     }
 }

@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +56,34 @@ public class CitiesFragment extends Fragment {
 
         Gson gson = new Gson();
         Collections.addAll(cities, gson.fromJson(inputStreamReader, City[].class));
+        Collections.sort(cities, new CityNameComparator());
         adapter.notifyDataSetChanged();
+
+        binding.searchEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                List<City> updatedCityList = new ArrayList<>();
+                for (City city : cities) {
+                    if (city.getName()
+                            .toLowerCase()
+                            .startsWith(String.valueOf(charSequence).toLowerCase())) {
+                        updatedCityList.add(city);
+                    }
+                }
+                adapter.filterList(updatedCityList);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 }

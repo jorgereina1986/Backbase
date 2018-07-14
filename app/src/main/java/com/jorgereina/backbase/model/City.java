@@ -2,18 +2,16 @@ package com.jorgereina.backbase.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class City {
 
-    //{"country":"UA","name":"Hurzuf","_id":707860,"coord":{"lon":34.283333,"lat":44.549999}},
+    //{"country":"UA","name":"Hurzuf","_id":707860,"coord":{"lon":34.283333,"lat":44.549999}}
 
     @SerializedName("country")
     private String country;
     @SerializedName("name")
     private String name;
     @SerializedName("_id")
-    private Long id;
+    private long id;
     @SerializedName("coord")
     private Coord coord;
 
@@ -33,11 +31,11 @@ public class City {
         this.name = name;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
