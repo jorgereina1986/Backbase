@@ -82,7 +82,6 @@ public class CitiesFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
 
-                adapter.notifyDataSetChanged();
             }
         });
     }
