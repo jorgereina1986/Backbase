@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.jorgereina.backbase.databinding.ActivityCitiesBinding;
+import com.jorgereina.backbase.list.CitiesFragment;
 
 public class CitiesActivity extends AppCompatActivity {
 

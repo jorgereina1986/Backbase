@@ -1,19 +1,22 @@
-package com.jorgereina.backbase;
+package com.jorgereina.backbase.list;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
+import com.jorgereina.backbase.CitiesAdapter;
+import com.jorgereina.backbase.CityNameComparator;
+import com.jorgereina.backbase.R;
 import com.jorgereina.backbase.databinding.FragmentCitiesBinding;
 import com.jorgereina.backbase.model.City;
 
@@ -23,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CitiesFragment extends Fragment {
+public class CitiesFragment extends Fragment implements CitiesContract.CitiesView {
 
     private static final String TAG = CitiesFragment.class.getSimpleName();
 
@@ -31,8 +34,13 @@ public class CitiesFragment extends Fragment {
     private CitiesAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<City> cities = new ArrayList<>();
+    private CitiesPresenter presenter;
 
-    public CitiesFragment() {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter = new CitiesPresenter(cities);
+        presenter.attachView(this);
     }
 
     @Override
@@ -41,23 +49,17 @@ public class CitiesFragment extends Fragment {
         binding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_cities, container, false);
         layoutManager = new LinearLayoutManager(getContext());
-        adapter = new CitiesAdapter(cities);
+        adapter = new CitiesAdapter(cities, presenter);
         binding.citiesRv.setLayoutManager(layoutManager);
         binding.citiesRv.setAdapter(adapter);
         return binding.getRoot();
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        InputStream inputStream = getClass().getResourceAsStream("/assets/cities.json");
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
-        Gson gson = new Gson();
-        Collections.addAll(cities, gson.fromJson(inputStreamReader, City[].class));
-        Collections.sort(cities, new CityNameComparator());
-        adapter.notifyDataSetChanged();
+        presenter.onCitiesRequested();
 
         binding.searchEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -67,16 +69,7 @@ public class CitiesFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                List<City> updatedCityList = new ArrayList<>();
-                for (City city : cities) {
-                    if (city.getName()
-                            .toLowerCase()
-                            .startsWith(String.valueOf(charSequence).toLowerCase())) {
-                        updatedCityList.add(city);
-                    }
-                }
-                adapter.filterList(updatedCityList);
+                presenter.onFilteredCitiesRequest(charSequence.toString());
             }
 
             @Override
@@ -84,5 +77,36 @@ public class CitiesFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void showError(String errorMessage) {
+
+    }
+
+    @Override
+    public void showCitiesRequested() {
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showFilteredCities(List<City> filteredCities) {
+        adapter.filterList(filteredCities);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 }

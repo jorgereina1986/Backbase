@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jorgereina.backbase.databinding.CityRowBinding;
+import com.jorgereina.backbase.list.CitiesContract;
 import com.jorgereina.backbase.model.City;
 
 import java.util.List;
@@ -15,9 +16,11 @@ import java.util.List;
 public class CitiesAdapter extends RecyclerView.Adapter <CitiesAdapter.CitiesViewHolder> {
 
     private List<City> cities;
+    private CitiesContract.Presenter presenter;
 
-    public CitiesAdapter(List<City> cities) {
+    public CitiesAdapter(List<City> cities, CitiesContract.Presenter presenter) {
         this.cities = cities;
+        this.presenter = presenter;
     }
 
     @NonNull
@@ -52,7 +55,8 @@ public class CitiesAdapter extends RecyclerView.Adapter <CitiesAdapter.CitiesVie
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(view.getContext(), "Test", Toast.LENGTH_LONG).show();
+            String pos = "Clicked item at position " + getAdapterPosition();
+            Toast.makeText(view.getContext(), pos, Toast.LENGTH_LONG).show();
         }
     }
 

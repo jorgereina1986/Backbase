@@ -17,5 +17,4 @@ public class BasePresenter<V> {
     protected final boolean isViewAttached() {
         return view != null;
     }
-
 }
