@@ -1,5 +1,7 @@
 package com.jorgereina.backbase.list;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,9 +10,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -58,22 +63,22 @@ public class CitiesListFragment extends Fragment implements CitiesListContract.C
 
         presenter.onCitiesRequested();
 
-        binding.searchEt.addTextChangedListener(new TextWatcher() {
+        binding.searchEt.setQueryHint(getString(R.string.search));
+        binding.searchEt.onActionViewExpanded();
+        binding.searchEt.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                presenter.onFilteredCitiesRequest(charSequence.toString());
-            }
+            public boolean onQueryTextChange(String newText) {
+                presenter.onFilteredCitiesRequest(newText);
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-
+                return false;
             }
         });
+
     }
 
     @Override
