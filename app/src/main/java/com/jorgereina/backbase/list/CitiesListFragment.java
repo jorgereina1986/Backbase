@@ -1,7 +1,5 @@
 package com.jorgereina.backbase.list;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,11 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -73,7 +67,8 @@ public class CitiesListFragment extends Fragment implements CitiesListContract.C
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                presenter.onFilteredCitiesRequest(newText);
+//                presenter.onFilteredCitiesRequest(newText);
+                presenter.onQueryTextChange(newText);
 
                 return false;
             }
@@ -113,6 +108,11 @@ public class CitiesListFragment extends Fragment implements CitiesListContract.C
         fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void showOnQueryTextChange(String query) {
+        adapter.getFilter().filter(query);
     }
 
     @Override

@@ -16,6 +16,8 @@ public interface CitiesListContract {
         int getCitiesCount();
 
         void onCitySelected(int position);
+
+        void onQueryTextChange(String query);
     }
 
     interface CitiesView extends BaseView {
@@ -25,5 +27,7 @@ public interface CitiesListContract {
         void showFilteredCities(List<City> filteredCities);
 
         void showCitySelected(City city);
+
+        void showOnQueryTextChange(String query);
     }
 }

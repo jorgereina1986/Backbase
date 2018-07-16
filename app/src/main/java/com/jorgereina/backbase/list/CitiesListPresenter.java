@@ -56,4 +56,9 @@ public class CitiesListPresenter extends BasePresenter<CitiesListContract.Cities
     public void onCitySelected(int position) {
         view.showCitySelected(cities.get(position));
     }
+
+    @Override
+    public void onQueryTextChange(String query) {
+        view.showOnQueryTextChange(query);
+    }
 }
