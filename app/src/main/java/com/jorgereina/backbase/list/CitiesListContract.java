@@ -5,13 +5,17 @@ import com.jorgereina.backbase.model.City;
 
 import java.util.List;
 
-public interface CitiesContract {
+public interface CitiesListContract {
 
     interface Presenter {
 
         void onCitiesRequested();
 
         void onFilteredCitiesRequest(String query);
+
+        int getCitiesCount();
+
+        void onCitySelected(int position);
     }
 
     interface CitiesView extends BaseView {
@@ -19,5 +23,7 @@ public interface CitiesContract {
         void showCitiesRequested();
 
         void showFilteredCities(List<City> filteredCities);
+
+        void showCitySelected(City city);
     }
 }

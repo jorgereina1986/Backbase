@@ -1,26 +1,27 @@
 <layout>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.jorgereina.backbase.CitiesFragment">
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/search_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/cities_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_below="@id/search_et"
+            android:padding="10dp" />
 
-            <EditText
-                android:id="@+id/search_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/cities_rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp" />
-        </LinearLayout>
-    </FrameLayout>
+        <ProgressBar
+            android:id="@+id/cities_pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
 </layout>

@@ -1,4 +1,4 @@
-package com.jorgereina.backbase;
+package com.jorgereina.backbase.list;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,17 +8,16 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jorgereina.backbase.databinding.CityRowBinding;
-import com.jorgereina.backbase.list.CitiesContract;
 import com.jorgereina.backbase.model.City;
 
 import java.util.List;
 
-public class CitiesAdapter extends RecyclerView.Adapter <CitiesAdapter.CitiesViewHolder> {
+public class CitiesListAdapter extends RecyclerView.Adapter <CitiesListAdapter.CitiesViewHolder> {
 
     private List<City> cities;
-    private CitiesContract.Presenter presenter;
+    private CitiesListContract.Presenter presenter;
 
-    public CitiesAdapter(List<City> cities, CitiesContract.Presenter presenter) {
+    public CitiesListAdapter(List<City> cities, CitiesListContract.Presenter presenter) {
         this.cities = cities;
         this.presenter = presenter;
     }
@@ -40,7 +39,7 @@ public class CitiesAdapter extends RecyclerView.Adapter <CitiesAdapter.CitiesVie
 
     @Override
     public int getItemCount() {
-        return cities.size();
+        return presenter.getCitiesCount();
     }
 
     public class CitiesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -55,8 +54,8 @@ public class CitiesAdapter extends RecyclerView.Adapter <CitiesAdapter.CitiesVie
 
         @Override
         public void onClick(View view) {
-            String pos = "Clicked item at position " + getAdapterPosition();
-            Toast.makeText(view.getContext(), pos, Toast.LENGTH_LONG).show();
+//            String pos = "Clicked item at position " + getAdapterPosition();
+            presenter.onCitySelected(getAdapterPosition());
         }
     }
 

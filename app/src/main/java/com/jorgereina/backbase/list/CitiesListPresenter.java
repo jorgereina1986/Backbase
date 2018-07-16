@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CitiesPresenter extends BasePresenter<CitiesContract.CitiesView>
-        implements CitiesContract.Presenter {
+public class CitiesListPresenter extends BasePresenter<CitiesListContract.CitiesView>
+        implements CitiesListContract.Presenter {
 
     private List<City> cities;
 
-    public CitiesPresenter(List<City> cities) {
+    public CitiesListPresenter(List<City> cities) {
         this.cities = cities;
     }
 
@@ -30,6 +30,7 @@ public class CitiesPresenter extends BasePresenter<CitiesContract.CitiesView>
         Collections.addAll(cities, gson.fromJson(inputStreamReader, City[].class));
         Collections.sort(cities, new CityNameComparator());
 
+        view.hideProgress();
         view.showCitiesRequested();
     }
 
@@ -44,5 +45,15 @@ public class CitiesPresenter extends BasePresenter<CitiesContract.CitiesView>
             }
         }
         view.showFilteredCities(filteredCities);
+    }
+
+    @Override
+    public int getCitiesCount() {
+        return cities.size();
+    }
+
+    @Override
+    public void onCitySelected(int position) {
+        view.showCitySelected(cities.get(position));
     }
 }

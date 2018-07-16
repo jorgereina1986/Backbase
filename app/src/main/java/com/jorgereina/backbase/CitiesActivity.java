@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.jorgereina.backbase.databinding.ActivityCitiesBinding;
-import com.jorgereina.backbase.list.CitiesFragment;
+import com.jorgereina.backbase.list.CitiesListFragment;
 
 public class CitiesActivity extends AppCompatActivity {
 
@@ -21,10 +21,10 @@ public class CitiesActivity extends AppCompatActivity {
     }
 
     private void populateFragment() {
-        CitiesFragment citiesFragment = new CitiesFragment();
+        CitiesListFragment citiesListFragment = new CitiesListFragment();
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_container, citiesFragment)
+                .add(R.id.fragment_container, citiesListFragment)
                 .commit();
     }
 }
