@@ -37,9 +37,8 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Ci
 
     @Override
     public void onBindViewHolder(@NonNull CitiesViewHolder holder, int position) {
-
-            City city = filteredCities.get(position);
-            holder.binding.nameTv.setText(city.getName());
+        City city = filteredCities.get(position);
+        holder.binding.nameTv.setText(city.getName());
     }
 
     @Override
@@ -52,37 +51,18 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Ci
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-
                 String query = charSequence.toString();
-
-                if (query.isEmpty()){
+                if (query.isEmpty()) {
                     filteredCities = cities;
-                }
-
-                else {
+                } else {
                     List<City> filteredList = new ArrayList<>();
                     for (City city : cities) {
-//                    if (city.getName()
-//                            .toLowerCase()
-//                            .contains(String.valueOf(query).toLowerCase())) {
-//                        filteredList.add(city);
-//                    }
-
                         if (city.getName().toLowerCase().startsWith(query)) {
-                            Log.d("lagarto", "performFiltering: " + query + " : " + city.getName());
-
                             filteredList.add(city);
                         }
-
-
                     }
-
                     filteredCities = filteredList;
-
                 }
-
-
-
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = filteredCities;
                 return filterResults;
@@ -109,7 +89,6 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Ci
 
         @Override
         public void onClick(View view) {
-//            String pos = "Clicked item at position " + getAdapterPosition();
             presenter.onCitySelected(getAdapterPosition());
         }
     }

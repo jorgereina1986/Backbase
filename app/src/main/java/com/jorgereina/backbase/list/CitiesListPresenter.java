@@ -7,7 +7,6 @@ import com.jorgereina.backbase.model.City;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,7 +21,6 @@ public class CitiesListPresenter extends BasePresenter<CitiesListContract.Cities
 
     @Override
     public void onCitiesRequested() {
-        view.showProgress();
         InputStream inputStream = getClass().getResourceAsStream("/assets/cities.json");
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
@@ -32,24 +30,6 @@ public class CitiesListPresenter extends BasePresenter<CitiesListContract.Cities
 
         view.hideProgress();
         view.showCitiesRequested();
-    }
-
-    @Override
-    public void onFilteredCitiesRequest(String query) {
-        List<City> filteredCities = new ArrayList<>();
-        for (City city : cities) {
-            if (city.getName()
-                    .toLowerCase()
-                    .startsWith(String.valueOf(query).toLowerCase())) {
-                filteredCities.add(city);
-            }
-        }
-        view.showFilteredCities(filteredCities);
-    }
-
-    @Override
-    public int getCitiesCount() {
-        return cities.size();
     }
 
     @Override

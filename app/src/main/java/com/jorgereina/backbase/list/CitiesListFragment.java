@@ -12,6 +12,7 @@ import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.jorgereina.backbase.R;
 import com.jorgereina.backbase.databinding.FragmentCitiesBinding;
@@ -22,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CitiesListFragment extends Fragment implements CitiesListContract.CitiesView {
-
-    private static final String TAG = CitiesListFragment.class.getSimpleName();
 
     private FragmentCitiesBinding binding;
     private CitiesListAdapter adapter;
@@ -67,9 +66,7 @@ public class CitiesListFragment extends Fragment implements CitiesListContract.C
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//                presenter.onFilteredCitiesRequest(newText);
                 presenter.onQueryTextChange(newText);
-
                 return false;
             }
         });
@@ -88,17 +85,12 @@ public class CitiesListFragment extends Fragment implements CitiesListContract.C
 
     @Override
     public void showError(String errorMessage) {
-
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showCitiesRequested() {
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void showFilteredCities(List<City> filteredCities) {
-        adapter.filterList(filteredCities);
     }
 
     @Override
