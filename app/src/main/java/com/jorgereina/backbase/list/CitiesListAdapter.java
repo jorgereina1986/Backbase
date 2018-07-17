@@ -89,12 +89,7 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Ci
 
         @Override
         public void onClick(View view) {
-            presenter.onCitySelected(getAdapterPosition());
+            presenter.onCitySelected(filteredCities.get(getAdapterPosition()));
         }
-    }
-
-    public void filterList(List<City> filteredCities) {
-        this.cities = filteredCities;
-        notifyDataSetChanged();
     }
 }

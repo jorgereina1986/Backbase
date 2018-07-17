@@ -3,15 +3,13 @@ package com.jorgereina.backbase.list;
 import com.jorgereina.backbase.BaseView;
 import com.jorgereina.backbase.model.City;
 
-import java.util.List;
-
 public interface CitiesListContract {
 
     interface Presenter {
 
         void onCitiesRequested();
 
-        void onCitySelected(int position);
+        void onCitySelected(City city);
 
         void onQueryTextChange(String query);
     }
