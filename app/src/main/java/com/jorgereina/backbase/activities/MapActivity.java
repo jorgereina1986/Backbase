@@ -1,4 +1,4 @@
-package com.jorgereina.backbase;
+package com.jorgereina.backbase.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.jorgereina.backbase.R;
 
 /**
  * Created by jorgereina on 7/16/18.
@@ -39,10 +40,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onMapReady(GoogleMap map) {
-        this.map = map;
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
         LatLng location = new LatLng(latitude, longitude);
-        this.map.addMarker(new MarkerOptions().position(location).title(cityName));
-        this.map.moveCamera(CameraUpdateFactory.newLatLng(location));
+        map.addMarker(new MarkerOptions().position(location).title(cityName));
+        map.moveCamera(CameraUpdateFactory.newLatLng(location));
+        map.setMinZoomPreference(5);
     }
 }
