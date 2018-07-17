@@ -38,7 +38,8 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Ci
     @Override
     public void onBindViewHolder(@NonNull CitiesViewHolder holder, int position) {
         City city = filteredCities.get(position);
-        holder.binding.nameTv.setText(city.getName());
+        holder.binding.cityTv.setText(city.getName());
+        holder.binding.countryTv.setText(city.getCountry());
     }
 
     @Override
@@ -57,8 +58,8 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Ci
                 } else {
                     List<City> filteredList = new ArrayList<>();
                     for (City city : cities) {
-                        if (city.getName().toLowerCase().startsWith(query)) {
-                            filteredList.add(city);
+                        if (city.getName().toLowerCase().startsWith(query.toLowerCase())) {
+                                filteredList.add(city);
                         }
                     }
                     filteredCities = filteredList;
