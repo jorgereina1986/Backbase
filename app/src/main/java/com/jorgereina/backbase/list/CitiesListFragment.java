@@ -8,11 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.jorgereina.backbase.R;
 import com.jorgereina.backbase.databinding.FragmentCitiesBinding;
@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CitiesListFragment extends Fragment implements CitiesListContract.CitiesView {
-
-    private static final String TAG = CitiesListFragment.class.getSimpleName();
 
     private FragmentCitiesBinding binding;
     private CitiesListAdapter adapter;
@@ -58,22 +56,21 @@ public class CitiesListFragment extends Fragment implements CitiesListContract.C
 
         presenter.onCitiesRequested();
 
-        binding.searchEt.addTextChangedListener(new TextWatcher() {
+        binding.searchEt.setQueryHint(getString(R.string.search));
+        binding.searchEt.onActionViewExpanded();
+        binding.searchEt.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                presenter.onFilteredCitiesRequest(charSequence.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
+            public boolean onQueryTextChange(String newText) {
+                presenter.onQueryTextChange(newText);
+                return false;
             }
         });
+
     }
 
     @Override
@@ -88,17 +85,12 @@ public class CitiesListFragment extends Fragment implements CitiesListContract.C
 
     @Override
     public void showError(String errorMessage) {
-
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showCitiesRequested() {
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void showFilteredCities(List<City> filteredCities) {
-        adapter.filterList(filteredCities);
     }
 
     @Override
@@ -108,6 +100,11 @@ public class CitiesListFragment extends Fragment implements CitiesListContract.C
         fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void showOnQueryTextChange(String query) {
+        adapter.getFilter().filter(query);
     }
 
     @Override
