@@ -33,8 +33,8 @@ public class CitiesListPresenter extends BasePresenter<CitiesListContract.Cities
     }
 
     @Override
-    public void onCitySelected(int position) {
-        view.showCitySelected(cities.get(position));
+    public void onCitySelected(City city) {
+        view.showCitySelected(city);
     }
 
     @Override

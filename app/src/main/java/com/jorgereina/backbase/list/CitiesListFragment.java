@@ -1,11 +1,11 @@
 package com.jorgereina.backbase.list;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -14,9 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.jorgereina.backbase.activities.MapActivity;
 import com.jorgereina.backbase.R;
 import com.jorgereina.backbase.databinding.FragmentCitiesBinding;
-import com.jorgereina.backbase.details.CityDetailsFragment;
 import com.jorgereina.backbase.model.City;
 
 import java.util.ArrayList;
@@ -95,11 +95,11 @@ public class CitiesListFragment extends Fragment implements CitiesListContract.C
 
     @Override
     public void showCitySelected(City city) {
-        CityDetailsFragment fragment = CityDetailsFragment.newInstance(city);
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit();
+        Intent intent = new Intent(getActivity(), MapActivity.class);
+        intent.putExtra("lat", city.getCoord().getLat());
+        intent.putExtra("lon", city.getCoord().getLon());
+        intent.putExtra("name", city.getName());
+        startActivity(intent);
     }
 
     @Override
